@@ -4,10 +4,10 @@ At this moment, the repository is organized with the needs and information on ho
 
 ## Experiment
 The experiment is divided in 4 main tasks:
-- Covertly pronounce numbers
-- Overtly pronounce numbers
-- Covertly pronounce words
-- Overtly pronounce words
+- Covertly pronounce Spanish commands
+- Overtly pronounce Spanish commands
+- Covertly pronounce English commands
+- Overtly pronounce English commands
 
 All the tasks are repeated once per session in random order. Two sessions are completed per subject in two different days.
 Further information can be read in DEL-BCI-2. \
@@ -28,7 +28,7 @@ The calibration script proceeds as follows:\
 <br />
 <br />
 <br />
-Finally, all the tasks follow the same diagram:\
+Finally, all the tasks follow the same diagram (we called this Task "Numbers" from an internal Testing, real names are Spanish or English Overt or Covert commands):\
 <br />
 ![Task Script](./Images/Task%20script.png)
 
