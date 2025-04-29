@@ -14,7 +14,7 @@ Further information can be read in DEL-BCI-2. \
 Sessions are disposed as follows:\
 ![Intra-session pipeline protocol](./Images/Intra-session%20pipeline.png)
 
-An example of a task pipeline:\
+An example of a task pipeline  (we called this Task "Numbers" from an internal Testing, real names are Spanish or English Overt or Covert commands):\
 ![Task pipeline example](./Images/Task%20pipeline%20example.png)
 
 Regarding the pipelines, the code is prepared to present the stimulus while saving the moment a stimulus has been presented, the moment a task has started or the words and tasks already done.\
@@ -28,7 +28,7 @@ The calibration script proceeds as follows:\
 <br />
 <br />
 <br />
-Finally, all the tasks follow the same diagram (we called this Task "Numbers" from an internal Testing, real names are Spanish or English Overt or Covert commands):\
+Finally, all the tasks follow the same diagram:\
 <br />
 ![Task Script](./Images/Task%20script.png)
 
