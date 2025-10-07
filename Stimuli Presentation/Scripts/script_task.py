@@ -57,8 +57,8 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
                 variables_setup.palabra_pre.setText(vocab_words[palabraActual])
                 variables_setup.palabra_pre.draw()
                 variables_setup.win.flip()
-                num_marker=(variables_setup.markers_words[vocab_words[palabraActual]][0]*10)+variables_setup.markers_fase['palabra_pre'][0] # For example, if palabraActual is 'Asset' a '61' marker will now
-                #be sent, thus we will know the the word is asset (asociated in variabes_setup.markers_words with number 6) and that we are in the first phase (asociated in variabes_setup.markers_fas with number 1) 
+                num_marker=(variables_setup.markers_words[vocab_words[palabraActual]][0]*10)+variables_setup.markers_fase['palabra_pre'][0] # For example, if palabraActual is 'Turn_down_volume_os' a '61' marker will now
+                #be sent, thus we will know the the word is Turn_down_volume_os (asociated in variabes_setup.markers_words with number 6) and that we are in the first phase (asociated in variabes_setup.markers_fas with number 1) 
                 #Meanwhile, word variable is for adding markers to the csvs
                 word = variables_setup.markers_words[vocab_words[palabraActual]][0]
                 timestamp_start= int(datetime.now().timestamp())

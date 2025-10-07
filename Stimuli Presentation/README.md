@@ -1,5 +1,5 @@
-# EPIIC BCI-Silent Speech
-This repository contains all the code related to the EPIIC BCI-Silent Speech Request.\
+# FESSCCo BCI-Silent Speech
+This repository contains all the code related to the FESSCCo database.\
 At this moment, the repository is organized with the needs and information on how to use the stimuli presentation for a multimodal bio-signal data acquisition for Silent Speech interfaces.
 
 ## Experiment
