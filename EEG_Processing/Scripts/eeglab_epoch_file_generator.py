@@ -1,8 +1,51 @@
 """
-This script will change the markers in CSV into a mode that EEGLab can understand for epoching. 
-This is, for each marker, the time in microseconds when a marker occurred since the recording started.
-This script also deletes repetitions of the same marker inmediatly after each other, keeping the last one (this can happen if a subject speaks multiple times in a row or if they say a different word).
+eeglab_epoch_file_generator.py converts experiment marker CSVs into an EEGLAB-compatible epoch file and
+removes immediate repeated markers. The module produces a tab-separated
+epoch_eeglab.txt that lists, for each event, the latency (microseconds
+since recording start), the event type id, the event position (round),
+and the session index. It also provides a utility to remove consecutive
+duplicate markers (keeping the last occurrence) and creates a backup.
+
+High-level steps performed by execute:
+    1. Read the session EEG.csv to determine the recording start timestamp
+    (column steady_timestamp).
+    2. Iterate through configured task marker files (Task-0..Task-N) located
+    under <parent_path>/Markers/Markers-Task-X.csv.
+    3. For each marker row, compute latency = (marker_steady_time - recording_start)
+    and map Word IDs to EEGLAB eventType using mappings defined in
+    the project's config.py (e.g., markers_words_os, markers_words_cs, markers_calibration).
+    4. Aggregate [latency, type, position, session] entries, sort by latency,
+    and save to epoch_eeglab.txt (tab-separated) in parent_path.
+    5. Use delete_repetitions to optionally clean repeated consecutive events
+
+
+Inputs / assumptions:
+    - parent_path (str): Path to the trimmed & translated session folder
+    (project expects a Markers subfolder containing Markers-Task-*.csv).
+    - subfolder_path (str): Path to the session folder that contains EEG.csv.
+    - session (int): Numeric session index to include in the exported file. 
+    Usually, this is passed through a loop from Batch_processing.py
+    - Marker CSVs must include columns named Word, Round, and either
+    steady_start (Task-0) or steady_go (other tasks). Missing numeric
+    data in these columns is coerced to NaN and skipped accordingly.
+    - Mappings from Word -> event id are provided in config.py as dictionaries:
+    markers_calibration, markers_words_os, markers_words_cs.
+    - The script assumes config.number_tasks indicates how many tasks to read
+    (it iterates from 0 to number_tasks inclusive).
+
+Outputs:
+    - epoch_eeglab.txt saved in parent_path
+    - delete_repetitions(filepath) will create a backup (filename with -deprecated)
+    if it removes lines, and overwrite the original file with the cleaned version.
+
+
+Author:
+Mario Lobo (UPM)
+mario.lobo.alonso@alumnos.upm.es
+Version:
+28-10-2025
 """
+
 
 
 #Import libraries used
@@ -11,17 +54,42 @@ import pandas as pd
 import config
 import shutil
 
-def execute(parent_path,subfolder_path):
-    '''
-    This script will change the markers in CSV into a mode that EEGLab can understand for epoching. 
-    This is, for each marker, the time in microseconds when a marker occurred since the recording started.
+def execute(parent_path,subfolder_path, session):
+    """
+    Generate an EEGLAB-compatible epoch event file from marker CSVs. This is a tab-separated epoch.txt file
+    with columns: latency (time since recording started), event type id, position (round), and session index.
+
     Args:
-        parent_path (str): Path to the  trimmed and translated data
-        subfolder_path (str): Path to the BBT-E32*
-    
+        parent_path (str): Root path for the trimmed & translated dataset for a subject.
+                        The function expects marker files at:
+                        os.path.join(parent_path, "Markers", "Markers-Task-<i>.csv").
+        subfolder_path (str): Path to the session folder that contains `EEG.csv`.
+        session (int): Session index to write into the epoch file [session] column.
+
     Returns:
-        epoch_path (str): Path to the EEGLab epoch file generated
-    '''
+        epoch_path (str): Full path to the generated epoch file (epoch_eeglab.txt).
+
+    Behavior:
+        - Loads `EEG.csv` from the subfolder_path and reads `steady_timestamp` to
+        determine recording start time.
+        - Iterates tasks i = 0..config.number_tasks, reads `Markers-Task-i.csv`,
+        coerces time columns (`steady_start` or `steady_go`) to numeric, and
+        for valid rows computes latency = marker_time - recording_start.
+        - Maps marker Word IDs to EEGLAB event type IDs using dictionaries in config.py:
+            * Task-0 -> config.markers_calibration
+            * Task-1, Task-3 -> config.markers_words_os
+            * Task-2, Task-4 -> config.markers_words_cs
+        - Aggregates entries, sorts by latency ascending, writes `epoch_eeglab.txt`
+        to parent_path as a tab-separated file with header, and returns the path.
+
+    Notes:
+        - Rows where Word == -1 or Round == 0 are skipped (calibration/round markers).
+        - Ensure config.py contains the required mappings and number_tasks.
+        - The produced latency values must be compatible with the time unit expected
+        by the EEGLAB import (e.g., if EEGLAB is called with `timeunit=1e-06`,
+        latencies must be in microseconds).
+    """
+
 
     #Path to all the data (complete recordings and separated Tasks)
     parent_path = os.path.normpath(parent_path)
@@ -36,6 +104,7 @@ def execute(parent_path,subfolder_path):
     latency = []
     type = []
     position = []
+    sessions = []
 
     #For every task (Note that in FESSCCo the calibration is considered as Task-0)
     for i in range(config.number_tasks+1):
@@ -64,20 +133,24 @@ def execute(parent_path,subfolder_path):
                         latency.append(row["steady_start"]-recording_start)
                         type.append(config.markers_calibration.get(row["Word"]))
                         position.append(row["Round"])
+                        sessions.append(session)
                     case "Task-1" | "Task-3":
                         latency.append(row["steady_go"]-recording_start)
                         type.append(config.markers_words_os.get(row["Word"]))
                         position.append(row["Round"])
+                        sessions.append(session)
                     case "Task-2" | "Task-4":
                         latency.append(row["steady_go"]-recording_start)
                         type.append(config.markers_words_cs.get(row["Word"]))
                         position.append(row["Round"])
+                        sessions.append(session)
 
     #save the DataFrame to be exported
     epoch_df = pd.DataFrame()
     epoch_df["latency"] = latency
     epoch_df["type"] = type
     epoch_df["position"] = position
+    epoch_df["session"] = sessions
 
     #Order the dataFrame by latency. inplace so the epoch_df overwrites
     epoch_df.sort_values(by="latency", ascending=True,inplace=True)
@@ -90,6 +163,32 @@ def execute(parent_path,subfolder_path):
     return epoch_path
 
 def delete_repetitions(filepath):
+    """
+    Remove consecutive duplicate events from an EEGLAB epoch/event file.
+    When a subject produces repeated immediate markers because of an error during the task (same type and position),
+    we keep only the last occurrence and remove earlier consecutive duplicates. This helps avoid duplicate epoch creation in EEGLAB.
+
+    Args:
+        filepath (str): Path to the epoch/event file to clean (CSV). The function reads the file into a pandas DataFrame,
+                        assuming columns at least 'type' and 'position'.
+
+    Returns:
+        None
+
+    Behavior:
+        - Reads the file.
+        - Builds a mask that keeps a row if either the 'type' differs from the next
+        row OR the 'position' differs from the next row. This effectively removes
+        a run of identical (type, position) entries, preserving the last of them.
+        - If any rows are removed, creates a backup of the original file with
+        suffix `-deprecated` before overwriting the original file with the
+        cleaned version.
+
+    Notes:
+        - The function compares each row to the next row (uses shift(-1)). It will
+        not remove non-consecutive duplicates (only immediate repeats).
+        - Validate that the file encoding and column names match expectations.
+    """
     # Read original file
     df = pd.read_csv(filepath, sep=r'\s+|,', engine='python')
     n_original = len(df)

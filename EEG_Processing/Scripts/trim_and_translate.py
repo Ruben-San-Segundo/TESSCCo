@@ -17,7 +17,7 @@ import config
 import extract_labels
 
 #main function for executing the first steps of pre-processing for just one subject
-def execute(raw_path : str, trimmed_and_translated_path : str, margin : int) -> None:
+def execute(raw_path : str, trimmed_and_translated_path : str, margin : int, session : int) -> None:
     """
     This function contains the first execution steps to convert a RAW data EEG recording into a matrix of epochs that allows to feed a DL algorithm.
     Specifically, this function trims the data, translates the marker files and extracts the EEGLab epoch file needed for epoching.
@@ -61,7 +61,7 @@ def execute(raw_path : str, trimmed_and_translated_path : str, margin : int) -> 
         extract_steady_timestamps.extract_steady_timestamps(tarea_path,utc_path,tarea_path,True)
 
     ###########Generating the files EEGLab needs for epoching###########
-    epoch_path = eeglab_epoch_file_generator.execute(trimmed_and_translated_path,subfolder_path)
+    epoch_path = eeglab_epoch_file_generator.execute(trimmed_and_translated_path,subfolder_path, session)
 
     eeglab_epoch_file_generator.delete_repetitions(epoch_path)
 
