@@ -1,14 +1,5 @@
-# Requirements for the EEG_Processing Python scripts
-# Note: The MATLAB Engine for Python (imported as `matlab.engine`) is
-# provided by MATLAB and must be installed via MATLAB's installer; it is
-# not installed via pip and therefore is not listed below.
 
-# Core third-party libraries used by the Python preprocessing tools
 numpy==2.3.1
 pandas==2.3.1
 scipy==1.16.0
-
-# HDF5 support for reading MATLAB -v7.3 files
 h5py>=3.0.0
-
-# Optional / development (not installed by pip): matlab.engine (MATLAB Engine for Python)
