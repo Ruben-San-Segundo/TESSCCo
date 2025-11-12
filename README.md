@@ -1,32 +1,36 @@
 # FESSCCo - FireTV EEG-based Silent Speech Command Corpus
 
-This repository contains the complete pipeline for the **FireTV EEG-based Silent Speech Command Corpus (FESSCCo)**, a multimodal bio-signal dataset for Silent Speech Interface (SSI) research. The project encompasses experiment design, stimuli presentation, EEG data acquisition, preprocessing, and statistical analysis for both overt (spoken aloud) and covert (silent) speech recognition using brain-computer interface (BCI) technology.
+This repository contains the all the code usedn in the **FireTV EEG-based Silent Speech Command Corpus (FESSCCo)**, a dataset for Silent Speech Interface (SSI) research.
 
-<!-- TODO: Add detailed dataset description including:
-     - Number of subjects
-     - Number of sessions per subject
-     - Total number of trials/recordings
-     - Dataset size and format
-     - Recording equipment specifications
--->
+The repository provides all the necessary **code and scripts** for:   
+- Stimul presentation for reproducing the experiments (`Stimuli Presentation/`)
+- Data preprocessing (`EEG_Processing/`)
+- Statistical analysis (`EEG_Statistical_Analysis/`)
 
-## Overview
+## Key Information
 
-The FireTV EEG-based Silent Speech Command Corpus provides a comprehensive framework for conducting experiments in silent speech recognition using EEG signals. The repository supports researchers and developers working on:
+- **21 native Spanish participants** (13 male, 8 female, 23+/-2 y/o)  
+- **5 commands in covert speech and overt speech, english and Spanish**: 
 
-- **Brain-Computer Interfaces (BCI)** for speech recognition
-- **Silent Speech Interfaces (SSI)** using EEG signals
-- **Multimodal bio-signal acquisition** for speech studies
-- **Deep Learning** applications in neuroscience and speech processing
+| Language | Commands |
+|:-------:|:-------------------------------------------------------------------------------------------------:|
+| Spanish | "Baja el volumen”, “Sube el volumen”, “Silencia FireTV", “Enciende la televisión”, “Apaga FireTV” |
+| English |   “Turn down volume”, “Turn up volume”, “Mute FireTV”,“Turn on television”, 10:“Turn off FireTV”  |
 
-The dataset focuses on Spanish and English command recognition in both overt and covert speech conditions, providing a rich resource for developing and testing silent speech recognition algorithms.
+- **32-channel water-based EEG headset** (BitBrain Versatile E32, 256 Hz sampling rate)  
+- **7936 ready-to-use trials** across 2 sessions per subject (three with 1 session only)  
+- **Preprocessing & statistical analysis** (Python, EEGLab, FieldTrip)  
+- **Open bilingual Silent Speech dataset** for specific device control
 
-<!-- TODO: Add detailed experiment overview including:
-     - Experimental paradigm description
-     - Command vocabulary (Spanish and English)
-     - Task structure and timing
-     - Data collection protocol
--->
+
+## 📂 Dataset Access and Notebooks
+
+The dataset is hosted publicly on [**Kaggle**](link)
+
+## Publication
+📄 [**Official publication in Scientific Data (Nature)**](Link)
+
+---
 
 ## Repository Structure
 
@@ -39,7 +43,6 @@ Contains the experimental stimuli presentation system built with PsychoPy for da
 
 **Key Features:**
 - Real-time stimulus presentation with precise timing
-- Synchronization with EEG recording systems via LSL (Lab Streaming Layer)
 - Audio recording capabilities
 - Automated task randomization and session management
 - Marker generation for stimulus timing
@@ -51,9 +54,7 @@ The experiment consists of 4 main tasks:
 - Covertly pronounce English commands
 - Overtly pronounce English commands
 
-Each task is repeated once per session in random order, with two sessions completed per subject on different days.
-
-<!-- TODO: Add reference to detailed experiment protocol and stimuli specifications -->
+Each task is repeated once per session in random order, with two sessions completed per subject. Further information — including precise timing, trial structure, and stimulus files. 
 
 **Documentation:** See [Stimuli Presentation/README.md](./Stimuli%20Presentation/README.md) for detailed setup and usage instructions.
 
@@ -67,9 +68,7 @@ Complete pipeline for EEG signal preprocessing and preparation for analysis.
 - **Filtering**: Apply frequency filters to remove noise
 - **Epoching**: Segment continuous data into task-relevant epochs
 - **ICA**: Independent Component Analysis for artifact removal
-- **Label Extraction**: Generate labels for Deep Learning applications
-
-<!-- TODO: Add preprocessing parameters and configurations details -->
+- **Label Extraction**: Generate labels for different applications
 
 **Technologies:**
 - Python for orchestration and data manipulation
@@ -81,9 +80,7 @@ Complete pipeline for EEG signal preprocessing and preparation for analysis.
 ### 3. EEG Statistical Analysis
 **Location:** `EEG_Statistical_Analysis/`
 
-Tools and scripts for statistical analysis of the preprocessed EEG data.
-
-<!-- TODO: Add description of statistical methods and analysis approaches -->
+Tools and scripts for statistical analysis of the preprocessed EEG data. Specifically, 1-WAY ANOVA tests using EEGLab and FieldTrip capabilities.
 
 **Documentation:** See [EEG_Statistical_Analysis/readme.md](./EEG_Statistical_Analysis/readme.md) for more information.
 
@@ -95,10 +92,6 @@ Tools and scripts for statistical analysis of the preprocessed EEG data.
      - Additional peripherals used in data collection
 -->
 
-### Hardware
-- **Minimum**: PC with microphone
-- **Full Experiment**: EEG acquisition system (e.g., BitBrain), audio recording equipment, and stimulus presentation display
-
 ### Software Dependencies
 
 #### For Stimuli Presentation:
@@ -108,13 +101,34 @@ Tools and scripts for statistical analysis of the preprocessed EEG data.
 - pylsl 1.16.2 (Lab Streaming Layer)
 
 #### For EEG Processing:
-- Python 3.x
-- NumPy 2.3.1
-- Pandas 2.3.1
-- SciPy 1.16.0
-- h5py >= 3.0.0
-- MATLAB with EEGLAB toolbox
-- MATLAB Engine API for Python
+- MATLAB (R2024b)
+     - MATLAB Engine API for Python
+     - MATLAB toolboxes:
+          - Signal Processing Toolbox
+          - EEGLab
+
+- EEGLAB (v2024.2)
+     - Required plugins (ensure installed and on path):
+          - ICLabel == 1.6
+          - clean_rawdata == 2.10
+
+- FieldTrip (latest stable release)
+
+- Python (3.10)
+     - numpy == 2.3.1
+     - pandas == 2.3.1
+     - scipy == 1.16.0
+     - h5py >= 3.0.0
+     - matplotlib
+     - pylsl == 1.16.2
+     - pyaudio == 0.2.14
+     - psychoPy == 2024.2.4
+
+- Additional tools / notes
+     - Add EEGLAB and FieldTrip folders to the MATLAB path before running pipelines
+     - Install EEGLAB plugins via the EEGLAB menu or place plugin folders under EEGLAB/plugins
+     - Ensure MATLAB Engine for Python is built and available to your Python environment (see MATLAB docs)
+
 
 ## Installation
 
@@ -127,11 +141,6 @@ Tools and scripts for statistical analysis of the preprocessed EEG data.
 & "C:/Program Files/PsychoPy/python.exe" -m pip install -r "Stimuli Presentation/requirements.txt"
 ```
 
-Or install individually:
-```bash
-& "C:/Program Files/PsychoPy/python.exe" -m pip install pylsl
-& "C:/Program Files/PsychoPy/python.exe" -m pip install pyaudio
-```
 
 ### EEG Processing Setup
 
@@ -147,105 +156,34 @@ pip install -r EEG_Processing/requirements.txt
 
 3. Install MATLAB and EEGLAB with required plugins (ICLabel, clean_rawdata)
 
-4. Install MATLAB Engine API for Python (from MATLAB installation)
+4. Install MATLAB Engine API for Python
 
-## Quick Start
-
-### Running an Experiment Session
-
-1. Navigate to your desired data storage location:
-```bash
-cd C:/My_experiments/Subject_00/Session_01
-```
-
-2. Execute the main script:
-```bash
-& "C:/Program Files/PsychoPy/python.exe" "C:/path-to-scripts/script_general.py"
-```
-
-The script will:
-- Create necessary CSV files for tracking tasks and markers
-- Run calibration (first session only)
-- Randomly select and present tasks
-- Record all data and timestamps
-
-### Processing EEG Data
-
-1. Configure the `Batch_Preprocessing.py` script (lines 19-30) with your data paths
-
-2. Ensure the following directory structure exists:
-   - RAW data folder (with Subject_XX/Session_YY structure)
-   - Trimmed and translated folder (empty initially)
-   - Pre-processed folder (empty initially)
-
-3. Run the batch processing:
-```bash
-python EEG_Processing/Scripts/Batch_Preprocessing.py
-```
-
-The pipeline will automatically:
-- Trim and translate timestamps
-- Apply filtering and epoching
-- Perform ICA
-- Extract labels for each epoch
-
-## Data Structure
-
-The repository expects and generates the following directory structure:
-
-```
-Data/
-├── 1. RAW/
-│   └── Subject_XX/
-│       └── Session_YY/
-│           └── BBT-E32-*/
-├── 2. Trimmed and Translated/
-│   └── Subject_XX/
-│       └── Session_YY/
-└── 3. Pre-processed/
-    └── Subject_XX/
-        └── Session_YY/
-```
-
-<!-- TODO: Add detailed file format specifications including:
-     - Raw data file formats and naming conventions
-     - Processed data formats (.set, .mat, .csv)
-     - Metadata file structures
-     - Label file formats
--->
-
-## Use Cases
-
-This repository supports various research applications:
-
-- **BCI Development**: Build brain-computer interfaces for speech control
-- **Silent Speech Recognition**: Develop algorithms to recognize unspoken commands
-- **Neuroscience Research**: Study brain activity patterns during speech production
-- **Deep Learning**: Train neural networks for EEG-based classification
-- **Multimodal Analysis**: Integrate EEG with audio recordings
-
-## Citation
-
-If you use this repository or the FireTV EEG-based Silent Speech Command Corpus in your research, please cite the relevant publications.
-
-<!-- TODO: Add specific citation information including:
-     - Paper title, authors, and publication details
-     - DOI or URL for the dataset
-     - Recommended BibTeX entry
--->
 
 ## License
 
-Please refer to the repository license for usage terms and conditions.
+### Attribution 4.0 International
+[![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/)  
 
-## Contributing
 
-Contributions to improve the pipeline, add new features, or fix bugs are welcome. Please ensure any changes maintain compatibility with the existing data structure and processing workflow.
 
-## Support
+---
 
-For questions, issues, or contributions, please use the GitHub issue tracker or contact the repository maintainers.
+### 📜 Citation
 
-## Acknowledgments
+If you use the FESSCCo dataset in your work, please cite it as follows:
 
-This project supports research in brain-computer interfaces and silent speech recognition, contributing to assistive technologies and human-computer interaction advancements.
+```bibtex
+@article{Metwalli2025,
+  title = {},
+  volume = {},
+  ISSN = {},
+  url = {},
+  DOI = {},
+  number = {},
+  journal = {},
+  publisher = {},
+  author = {},
+  year = {},
+  month = xxx 
+}
+```
