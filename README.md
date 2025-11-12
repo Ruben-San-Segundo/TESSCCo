@@ -1,10 +1,18 @@
-# FESSCCo - Full EEG Silent Speech Command Dataset
+# FESSCCo - FireTV EEG-based Silent Speech Command Corpus
 
-This repository contains the complete pipeline for the FESSCCo (Full EEG Silent Speech Command) database, a multimodal bio-signal dataset for Silent Speech Interface (SSI) research. The project encompasses experiment design, stimuli presentation, EEG data acquisition, preprocessing, and statistical analysis for both overt (spoken aloud) and covert (silent) speech recognition using brain-computer interface (BCI) technology.
+This repository contains the complete pipeline for the **FireTV EEG-based Silent Speech Command Corpus (FESSCCo)**, a multimodal bio-signal dataset for Silent Speech Interface (SSI) research. The project encompasses experiment design, stimuli presentation, EEG data acquisition, preprocessing, and statistical analysis for both overt (spoken aloud) and covert (silent) speech recognition using brain-computer interface (BCI) technology.
+
+<!-- TODO: Add detailed dataset description including:
+     - Number of subjects
+     - Number of sessions per subject
+     - Total number of trials/recordings
+     - Dataset size and format
+     - Recording equipment specifications
+-->
 
 ## Overview
 
-FESSCCo provides a comprehensive framework for conducting experiments in silent speech recognition using EEG signals. The repository supports researchers and developers working on:
+The FireTV EEG-based Silent Speech Command Corpus provides a comprehensive framework for conducting experiments in silent speech recognition using EEG signals. The repository supports researchers and developers working on:
 
 - **Brain-Computer Interfaces (BCI)** for speech recognition
 - **Silent Speech Interfaces (SSI)** using EEG signals
@@ -12,6 +20,13 @@ FESSCCo provides a comprehensive framework for conducting experiments in silent 
 - **Deep Learning** applications in neuroscience and speech processing
 
 The dataset focuses on Spanish and English command recognition in both overt and covert speech conditions, providing a rich resource for developing and testing silent speech recognition algorithms.
+
+<!-- TODO: Add detailed experiment overview including:
+     - Experimental paradigm description
+     - Command vocabulary (Spanish and English)
+     - Task structure and timing
+     - Data collection protocol
+-->
 
 ## Repository Structure
 
@@ -38,6 +53,8 @@ The experiment consists of 4 main tasks:
 
 Each task is repeated once per session in random order, with two sessions completed per subject on different days.
 
+<!-- TODO: Add reference to detailed experiment protocol and stimuli specifications -->
+
 **Documentation:** See [Stimuli Presentation/README.md](./Stimuli%20Presentation/README.md) for detailed setup and usage instructions.
 
 ### 2. EEG Processing
@@ -52,6 +69,8 @@ Complete pipeline for EEG signal preprocessing and preparation for analysis.
 - **ICA**: Independent Component Analysis for artifact removal
 - **Label Extraction**: Generate labels for Deep Learning applications
 
+<!-- TODO: Add preprocessing parameters and configurations details -->
+
 **Technologies:**
 - Python for orchestration and data manipulation
 - MATLAB/EEGLAB for advanced signal processing
@@ -64,9 +83,17 @@ Complete pipeline for EEG signal preprocessing and preparation for analysis.
 
 Tools and scripts for statistical analysis of the preprocessed EEG data.
 
+<!-- TODO: Add description of statistical methods and analysis approaches -->
+
 **Documentation:** See [EEG_Statistical_Analysis/readme.md](./EEG_Statistical_Analysis/readme.md) for more information.
 
 ## Requirements
+
+<!-- TODO: Add specific hardware requirements including:
+     - EEG system model and specifications
+     - Computer specifications (CPU, RAM, OS)
+     - Additional peripherals used in data collection
+-->
 
 ### Hardware
 - **Minimum**: PC with microphone
@@ -180,6 +207,13 @@ Data/
         └── Session_YY/
 ```
 
+<!-- TODO: Add detailed file format specifications including:
+     - Raw data file formats and naming conventions
+     - Processed data formats (.set, .mat, .csv)
+     - Metadata file structures
+     - Label file formats
+-->
+
 ## Use Cases
 
 This repository supports various research applications:
@@ -192,7 +226,13 @@ This repository supports various research applications:
 
 ## Citation
 
-If you use this repository or the FESSCCo database in your research, please cite the relevant publications (refer to DEL-BCI-2 documentation).
+If you use this repository or the FireTV EEG-based Silent Speech Command Corpus in your research, please cite the relevant publications.
+
+<!-- TODO: Add specific citation information including:
+     - Paper title, authors, and publication details
+     - DOI or URL for the dataset
+     - Recommended BibTeX entry
+-->
 
 ## License
 
