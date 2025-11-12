@@ -1,9 +1,4 @@
 """
-This script contains functions to concatenate data and labels.
-Specifically, if we want the data of all the subjects in just one matrix and the labels in an other file with the same order.
-"""
-
-"""
 Concatenate.py provides utilities to concatenate per-session cleaned EEG epochs and their associated label files into single dataset-level files for downstream
 analysis. 
 
@@ -187,11 +182,11 @@ def concatenate_labels(in_out_root, n_subjects, n_sessions, skip):
 
 if __name__ == "__main__":
     # Example usage
-    pre_processed_root = "C:/Users/user/Desktop/Mario Lobo/Silent Speech Data Amazon/3. Pre-processed"
-    n_subjects = 21
+    pre_processed_root = "C:/Users/user/Desktop/Mario Lobo/Silent Speech Data Amazon Non-Native/3. Pre-processed"
+    n_subjects = 3
     n_sessions = 2
 
-    not_process_subjects_and_sessions = [{"Subject_11", "Session_02"},{"Subject_21", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
+    not_process_subjects_and_sessions = [{"Subject_03", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
 
     
     #Go across all the subjects for the label extraction(step 3) 

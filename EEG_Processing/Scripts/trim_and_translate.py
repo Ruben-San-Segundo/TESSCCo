@@ -1,8 +1,25 @@
 """
-This file contains the first part of the preparation of signals for AI use.
-It uses modules from the SDK repository, but  the folder "EEG_PRocessing" contains specifically what is needed for EEG preparation.
-That means, trimming the beginning and ending of the recordings, timestamp translation, generation of EEGLab epoch files, a complete MATLAB pre-processing
-and concatenation of epochs
+trim_and_translate.py orchestrates the initial pre-processing steps for a single subject/session:
+      - Trim raw session recordings (avoid early/late poor-quality segments)
+      - Sort and translate marker CSVs to device steady timestamps
+      - Generate an EEGLAB-compatible epoch file and remove immediate repeated markers
+
+      This script is a lightweight driver that calls the helper modules:
+`trim_real_data`, `sort_tasks`, `extract_steady_timestamps`, and
+`eeglab_epoch_file_generator`. It does not implement those transformations
+itself — it sequences them for one subject/session.
+
+Effects:
+    - Trimmed EEG.csv and translated marker CSVs saved under `trimmed_and_translated_path`
+    - An EEGLAB epoch file (`epoch_eeglab.txt`) in `trimmed_and_translated_path`
+    - Console prints indicating progress for each step
+    - Note: this script modifies files on disk (overwrites sorted/translated marker CSVs)
+
+Author:
+    Mario Lobo (UPM)
+    mario.lobo.alonso@alumnos.upm.es
+Version:
+    12-11-2025
 """
 
 #Import needed modules
@@ -19,17 +36,36 @@ import extract_labels
 #main function for executing the first steps of pre-processing for just one subject
 def execute(raw_path : str, trimmed_and_translated_path : str, margin : int, session : int) -> None:
     """
-    This function contains the first execution steps to convert a RAW data EEG recording into a matrix of epochs that allows to feed a DL algorithm.
-    Specifically, this function trims the data, translates the marker files and extracts the EEGLab epoch file needed for epoching.
-    
+    Orchestrates trimming and marker translation for one subject/session.
+
+    High-level steps (performed in order):
+      1. Create a working copy and trim the EEG recording to task window
+         (calls `trim_real_data.execute`).
+      2. Sort the Tasks-Completed marker file in-place (calls `sort_tasks.sort_tasks`).
+      3. Map marker UTC timestamps to device steady timestamps for the
+         Tasks-Completed file (calls `extract_steady_timestamps`).
+      4. Process each Task-X marker file similarly (Task-0..Task-N).
+      5. Generate the EEGLAB epoch file and remove immediate duplicate markers
+         (calls `eeglab_epoch_file_generator.execute` and `.delete_repetitions`).
+
     Args:
-        raw_path (str): Path to the folder with the complete data of one subject (e.g. RAW/Subject_XX/Session_XX).
-        trimmed_and_translated_path (str): Path to the folder where translated markers file with task information and trimmed EEG will be stored (e.g. Trimmed/Subject_XX/Session_XX)
-        pre_processed_path (str): Path where all the pre_processed data, labels and tensors will be stored (e.g. Pre-processed/Subject_XX/Session_XX)
-        margin (int): Number of samples extra to save while trimming 
+        raw_path (str): Path to the original raw session folder (e.g. RAW/Subject_01/Session_01).
+        trimmed_and_translated_path (str): Destination working folder for trimmed EEG and translated markers.
+        margin (int): Number of extra samples to include when trimming (applied around start/end).
+        session (int): Session index passed to the epoch-file generator (used in the 'session' column).
 
     Returns:
         None
+
+    Side-effects / outputs:
+      - Copies and trims files under `trimmed_and_translated_path` (overwrites sorted/translated CSVs).
+      - Writes `epoch_eeglab.txt` into `trimmed_and_translated_path`.
+      - Prints progress messages to stdout.
+
+    Important assumptions & notes:
+      - Expects BitBrain-style folder/file layout (EEG.csv, UTC.csv, Markers/Tasks-Completed.csv, Markers-Task-*.csv).
+      - Relies on `config.number_tasks` to determine how many Task-*.csv files to process.
+      - Helper functions perform file writes and may overwrite existing files; keep backups if needed.
     """
 
     ###########Trim the beginning and ending of the subjects' session EEG.csv###########

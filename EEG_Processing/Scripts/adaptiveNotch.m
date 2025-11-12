@@ -1,31 +1,39 @@
 function [EEG, f0, applied] = adaptiveNotch(EEG, searchBand, threshold_dB, debug)
-    % adaptiveNotch_eeglab - Global adaptive notch filtering for EEGLAB EEG structure.
-    %
-    % Detects a narrowband noise peak (e.g., ~80 Hz) across all channels,
-    % and applies a notch filter to the whole dataset using pop_eegfiltnew.
-    % Optionally visualizes the PSD before and after filtering.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % adaptiveNotch.m detects and removes narrowband noise peaks in an EEGLAB `EEG` structure by
+    %   estimating the PSD across channels/trials and applying a band-stop (notch)
+    %   FIR filter with `pop_eegfiltnew` when a significant peak is found.
     %
     % Syntax:
-    %   [EEG, f0, applied] = adaptiveNotch_eeglab(EEG)
-    %   [EEG, f0, applied] = adaptiveNotch_eeglab(EEG, searchBand, threshold_dB, debug)
+    %   [EEG, f0, applied] = adaptiveNotch(EEG)
+    %   [EEG, f0, applied] = adaptiveNotch(EEG, searchBand, threshold_dB, debug)
     %
     % Inputs:
-    %   EEG          : EEGLAB EEG structure
-    %   searchBand   : [minFreq maxFreq] range (default: [60 100])
-    %   threshold_dB : Peak prominence threshold in dB (default: 6)
-    %   debug        : true/false → show PSD plot (default: false)
+    %   - EEG          : EEGLAB EEG structure (channels x samples x trials)
+    %   - searchBand   : [minFreq maxFreq] Hz to search for narrowband peaks
+    %                    (default: [60 100])
+    %   - threshold_dB : Minimum peak prominence in dB to trigger filtering
+    %                    (default: 6)
+    %   - debug        : logical, when true shows PSD before/after and marks f0
+    %                    (default: false)
     %
     % Outputs:
-    %   EEG       : Filtered EEG structure (same as input if no filtering applied)
-    %   f0        : Detected noise frequency (NaN if none)
-    %   applied   : Boolean flag indicating whether the filter was applied
+    %   - EEG     : Possibly filtered EEGLAB structure (unchanged if no notch applied)
+    %   - f0      : Detected peak frequency (NaN if no peak detected)
+    %   - applied : boolean flag, true if notch filter was applied. If true, the main code calls again this function
     %
-    % Example:
-    %   [EEG, f0, applied] = adaptiveNotch_eeglab(EEG, [70 90], 8, true);
+    % Notes:
+    %   - Uses Welch's method (pwelch) to estimate PSD per channel and trial,
+    %     averages across channels & trials, then computes peak prominence.
+    %   - Filtering is performed with EEGLAB's `pop_eegfiltnew` (requires EEGLAB).
+    %   - Bandwidth for the notch is currently fixed to 2 Hz (adjust in code if needed).
+    %   - `debug=true` recomputes PSD after filtering and plots a before/after
+    %     comparison in a semilogx figure.
     %
-    % Requires: EEGLAB, pop_eegfiltnew()
-    % --------------------------------------------------------------
-
+    % Author: Mario Lobo (UPM)
+    % Version: 12-11-2025
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     if nargin < 2 || isempty(searchBand), searchBand = [60 100]; end
     if nargin < 3 || isempty(threshold_dB), threshold_dB = 6; end
     if nargin < 4, debug = false; end
@@ -34,19 +42,6 @@ function [EEG, f0, applied] = adaptiveNotch(EEG, searchBand, threshold_dB, debug
     fs = EEG.srate;
     data = EEG.data;
     [nCh, nSamples, nTrials] = size(data);
-
-    % % Compute average PSD across all channels
-    % 
-    % [Pxx, f] = pwelch(data(1,:), fs, [], [], fs);
-    % Pxx_all = zeros(length(Pxx), nCh);
-    % Pxx_all(:,1) = Pxx;
-    % 
-    % for ch = 2:nCh
-    %     [Pxx_all(:, ch), ~] = pwelch(data(ch,:), fs, [], [], fs);
-    % end
-    % 
-    % Pxx_mean = mean(Pxx_all, 2);
-    % Pxx_dB = 10*log10(Pxx_mean);
 
     % Use Welch's method for the first channel & trial to get freq vector
     [Pxx, f] = pwelch(data(1,:,1), fs, [], [], fs);

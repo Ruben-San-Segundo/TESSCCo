@@ -83,6 +83,8 @@ function EEG_Preprocess_function(EEG_in_path, out_path,loc_path,epochs_path, fs)
     csv.steady_timestamp = [];
     eeg = table2array(csv)';
     
+    eeg = eeg*1000; %BitBrain data is stored in mV and EEGLab reads microVolts
+
     %Clear the table as we have everything in different variables
     clear("csv");
     

@@ -64,14 +64,14 @@ clear; close all; clc;
 
 
 % === Loop for all the subjects ===
-root_dir = "C:\Users\user\Desktop\Mario Lobo\Silent Speech Data Amazon\3. Pre-processed";
+root_dir = "C:\Users\user\Desktop\Mario Lobo\Silent Speech Data Amazon Non-Native\3. Pre-processed";
 subjects = dir(fullfile(root_dir, 'Subject_*'));
 
 n_sessions = 2;
 
 % === There are subjects that don't have specific sessions for several
 % reasons ===
-exclude_subjects_and_sessions = [11 2; 21 2];
+exclude_subjects_and_sessions = [3 2;];
 
 for i = 1:length(subjects)
     close all

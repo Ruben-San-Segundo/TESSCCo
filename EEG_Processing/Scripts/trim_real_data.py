@@ -1,19 +1,3 @@
-'''
-This code makes the intial steps of the pre-processing pipeline presented in the README.
-Version 0.1
-WARNING!!! Even if the code is intented to be scalable and usable for different projects, the main focus was on "FESSCCo" project.
-Further addaptations might have to be done by users working in different projects.
-
-Brief explanation of the code:
-    - Takes the input and output path from the GUI
-    - Clones the original data into the output path (avoiding data loses if something goes wrong)
-    - Merges the ExG data and splits the IMU data. Marked with a WARNING!!! as this is specific for BitBrain devices
-    - Trims all the data before the start of the Task-0 minus the margin (in samples)
-'''
-
-
-
-
 """
 trim_real_data.py performs the initial trimming and reorganization steps for BitBrain EEG
 sessions. The script clones the raw recording folder to a safe output
