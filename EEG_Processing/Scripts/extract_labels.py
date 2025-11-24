@@ -70,7 +70,7 @@ def covert_vs_overt(clean_labels_file_path):
 
     # Check if 'EventType' column exists
     if "EventType" not in df.columns:
-        raise ValueError("El archivo no contiene la columna 'EventType'.")
+        raise ValueError("The file does not contain the column 'EventType'.")
 
     # Create the new column based on the 'os' or 'cs' suffixes
     df["os_cs"] = df["EventType"].apply(
@@ -101,7 +101,7 @@ def just_words(clean_labels_file_path):
 
     # Check if 'EventType' column exists
     if "EventType" not in df.columns:
-        raise ValueError("El archivo no contiene la columna 'EventType'.")
+        raise ValueError("The file does not contain the column 'EventType'.")
 
     # Mapping dictionary: each key is the final category
     # each value is a list of types that should be mapped to that category
@@ -155,7 +155,7 @@ def english_vs_spanish(clean_labels_file_path):
 
     # Check if 'EventType' column exists
     if "EventType" not in df.columns:
-        raise ValueError("El archivo no contiene la columna 'EventType'.")
+        raise ValueError("The file does not contain the column 'EventType'.")
 
     # Define lists for events by language
     spanish_events = [

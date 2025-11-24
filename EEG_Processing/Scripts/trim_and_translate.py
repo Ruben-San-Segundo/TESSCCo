@@ -31,7 +31,6 @@ import trim_real_data
 import os
 import glob
 import config
-import extract_labels
 
 #main function for executing the first steps of pre-processing for just one subject
 def execute(raw_path : str, trimmed_and_translated_path : str, margin : int, session : int) -> None:

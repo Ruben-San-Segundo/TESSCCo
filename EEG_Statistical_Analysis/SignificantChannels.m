@@ -1,26 +1,3 @@
-% This script will search for a Study indicated and will make a 1-way ANOVA
-% statistical test to find the most significant channels for each subject.
-% Finally, the script will count and present the most significant channels
-% in general. This will allow to orientate the TFsignificance and what
-% parameters feed to different algorithms.
-%
-% Steps:
-%   1. Select the folders where the study is stored and where the results
-%   will be stored
-%   2. Setup the statistical parameters (minimun p-value, statistical test,
-%   corrections, etc.)
-%   3. Create a series of folders to save all the results.
-%   SignificantChannels/StudyType/TimeRange (e.g.
-%   SignificantChannels/Spanish ALL/-200_2000 ms)
-%   4. Compute the statistical analysis saving individual results
-%   5. Save summarys in graphics (such as most repeated significant
-%   channels or p-value topographic plot)
-%  
-%
-% Requires EEGLab
-% -------------------------------------------------------------------------
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SignificantChannels.m runs per-subject ERP statistics (1-way ANOVA / permutation testing) on an
 % EEGLAB STUDY to identify electrodes that are consistently significant.

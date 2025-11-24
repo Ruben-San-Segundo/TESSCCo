@@ -60,7 +60,6 @@ import h5py
 from scipy import io
 import numpy as np
 import pandas as pd
-import csv
 import extract_labels
 
 
@@ -121,8 +120,8 @@ def concatenate_epochs(in_out_root, n_subjects, n_sessions, skip):
 
     # Saving the concatenated data
     concatenated_epochs = np.concatenate(all_epochs,axis=0)
-    print(f"Se concatenaron {len(all_epochs)} archivos.")
-    print(f"Forma final del array concatenado: {concatenated_epochs.shape}")
+    print(f"Concatenated {len(all_epochs)} files.")
+    print(f"Final shape of concatenated array: {concatenated_epochs.shape}")
 
     mat_out = os.path.join(in_out_root,"Clean_concatenated_epochs.mat")
     io.savemat(mat_out, {"epochs": concatenated_epochs})
@@ -143,7 +142,7 @@ def concatenate_labels(in_out_root, n_subjects, n_sessions, skip):
         None
 
     Outputs:
-        - Saves `Clean_concatenated_labels.csv` to [in_out_root](http://_vscodecontentref_/9) containing the
+        - Saves `Clean_concatenated_labels.csv` to in_out_root containing the
         concatenated label rows from all processed sessions in the same order
         as `Clean_concatenated_epochs.mat`.
 

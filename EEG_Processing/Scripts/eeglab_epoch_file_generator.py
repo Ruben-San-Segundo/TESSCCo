@@ -83,7 +83,7 @@ def execute(parent_path,subfolder_path, session):
         to parent_path as a tab-separated file with header, and returns the path.
 
     Notes:
-        - Rows where Word == -1 or Round == 0 are skipped (calibration/round markers).
+        - Rows where Word == -1 or Round == 0 are skipped (round/calibration markers).
         - Ensure config.py contains the required mappings and number_tasks.
         - The produced latency values must be compatible with the time unit expected
         by the EEGLAB import (e.g., if EEGLAB is called with `timeunit=1e-06`,
@@ -114,7 +114,7 @@ def execute(parent_path,subfolder_path, session):
         task_path = os.path.join(parent_path, "Markers", marker)
         task_df = pd.read_csv(task_path)
 
-        #WARNING: This is for FESSCCo as the experimentation was developped that way. In other projects probably it should be an other for loop just for calibrations
+        #WARNING: This is for FESSCCo as the experimentation was developed that way. In other projects probably it should be an other for loop just for calibrations
         if task =="Task-0":
             task_df["steady_start"] = pd.to_numeric(task_df["steady_start"], errors="coerce")
         else:
