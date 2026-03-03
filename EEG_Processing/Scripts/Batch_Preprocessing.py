@@ -69,13 +69,13 @@ pre_processed_root = "C:/Users/user/Desktop/Mario Lobo/Silent Speech Data Amazon
 # Path to the location file (it is usually the same for every subject)
 loc_path = "C:/Users/user/Desktop/AMAZON_BCI/Code/Amazon_SSI/EEG_Processing/Scripts/BitBrain_SSI_placement.loc"
 
-n_subjects = 3
+n_subjects = 21
 n_sessions = 2
 
 margin_trim = 512 #margin in samples for the trimming
 
-#not_process_subjects_and_sessions = [{"Subject_11", "Session_02"},{"Subject_21", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
-not_process_subjects_and_sessions = [{"Subject_03", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
+not_process_subjects_and_sessions = [{"Subject_11", "Session_02"},{"Subject_21", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
+#not_process_subjects_and_sessions = [{"Subject_03", "Session_02"}] #List of subjects that will not be processed (for example, if they have corrupted data)
 
 # Go across all the subjects for the trim and translation (step 1) 
 for i in range(1,n_subjects+1):
