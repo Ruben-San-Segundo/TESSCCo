@@ -23,7 +23,7 @@ The repository provides all the necessary **code and scripts** for:
 - **Open bilingual Silent Speech dataset** for specific device control
 
 
-## 📂 Dataset Access and Notebooks
+## 📂 Dataset Access
 
 The dataset is hosted publicly on [**Kaggle**](https://www.kaggle.com/datasets/rubensansegundoherna/tesscco)
 
@@ -173,7 +173,7 @@ pip install -r EEG_Processing/requirements.txt
 If you use the FESSCCo dataset in your work, please cite it as follows:
 
 ```bibtex
-@article{Metwalli2025,
+@article{,
   title = {},
   volume = {},
   ISSN = {},
