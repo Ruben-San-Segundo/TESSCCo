@@ -236,8 +236,8 @@ function EEG_Preprocess_function(EEG_in_path, out_path,loc_path,epochs_path, fs)
 
     %Save a .mat with the separated epochs in a 3D array. This epochs match
     %the correct_epochs labels and has IC correction
-    epochs = EEG.data;
-    save(append(out_path, '\Correct_epochs.mat'),"epochs")
+    EEGData = EEG.data;
+    save(append(out_path, '\Correct_epochs.mat'),"EEGData")
 
     %Save the Dataset without the bad epochs and events
     EEG = pop_saveset( EEG, 'filename','Correct_epochs.set','filepath',out_path);
@@ -246,12 +246,13 @@ function EEG_Preprocess_function(EEG_in_path, out_path,loc_path,epochs_path, fs)
     %Save the labels and metadata associated with the epochs without errors
     epoch_labels_file = fullfile(out_path, 'Correct_labels.csv');
     fid = fopen(epoch_labels_file, 'w');
-    fprintf(fid, 'EpochIndex,EventType,EventPosition\n');
+    fprintf(fid, 'Subject,Session,EpochIndex,EventType,EventPosition\n');
 
     for e = 1:length(EEG.epoch)
         ev_type = EEG.epoch(e).eventtype;        % solo un evento por epoch
         ev_pos  = EEG.epoch(e).eventposition;     % posición del evento
-        fprintf(fid, '%d,%s,%d\n', e, ev_type, ev_pos);
+        fprintf(fid2, '%s,%s,%d,%s,%d\n', ...
+                subject_name, session_name, e, ev_type, ev_pos);
     end
 
     fclose(fid);

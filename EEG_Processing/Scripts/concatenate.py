@@ -63,7 +63,7 @@ import pandas as pd
 import extract_labels
 
 
-def concatenate_epochs(in_out_root, n_subjects, n_sessions, skip):
+def concatenate_epochs(in_out_root, n_subjects, n_sessions, skip, mat_name="Clean"):
     """
     Concatenate per-session epoch MAT files into a single .mat file.
     Args:
@@ -106,13 +106,17 @@ def concatenate_epochs(in_out_root, n_subjects, n_sessions, skip):
             session_in_path = os.path.join(in_out_root, subject, session_name)     
 
             # Extracting the data from matlab format files
-            mat_path = os.path.join(session_in_path,"Clean_epochs.mat")
+            mat_path = os.path.join(session_in_path,f"{mat_name}_epochs.mat")
             print(f"Loading: {mat_path}")
 
-            with h5py.File(mat_path, "r") as f:
-                    # h5py devuelve un dataset en orden inverso de ejes (Fortran vs C)
-                    # Por eso lo transponemos luego
-                    epochs = np.array(f["EEGdata"]).T
+            if mat_name == "Clean":
+                with h5py.File(mat_path, "r") as f:
+                        # h5py devuelve un dataset en orden inverso de ejes (Fortran vs C)
+                        # Por eso lo transponemos luego
+                        epochs = np.array(f["EEGdata"]).T
+            elif mat_name == "Correct":
+                mat_contents = io.loadmat(mat_path)
+                epochs = mat_contents["epochs"] # Assuming the variable is named "EEGdata" in the .mat file
             
             epochs_transpossed = np.transpose(epochs, (2, 1, 0))
             all_epochs.append(epochs_transpossed)
@@ -128,7 +132,7 @@ def concatenate_epochs(in_out_root, n_subjects, n_sessions, skip):
 
 
 
-def concatenate_labels(in_out_root, n_subjects, n_sessions, skip):
+def concatenate_labels(in_out_root, n_subjects, n_sessions, skip, label_name="Clean"):
     """
     Concatenate per-session label CSVs into a single CSV.
 
@@ -164,7 +168,7 @@ def concatenate_labels(in_out_root, n_subjects, n_sessions, skip):
                 continue
             session_in_path = os.path.join(in_out_root, subject, session_name)     
 
-            labels_path= os.path.join(session_in_path,"Clean_labels.csv")
+            labels_path= os.path.join(session_in_path,f"{label_name}_labels.csv")
             print(labels_path)
 
             # Grouping the labels
@@ -176,7 +180,7 @@ def concatenate_labels(in_out_root, n_subjects, n_sessions, skip):
     print(f"Se concatenaron {len(labels_concat)} archivos.")
     print(f"Forma final del array concatenado: {labels_concat.shape}")
 
-    csv_out = os.path.join(in_out_root, "Clean_concatenated_labels.csv")
+    csv_out = os.path.join(in_out_root, f"{label_name}_concatenated_labels.csv")
     labels_concat.to_csv(csv_out, index=False)
 
 if __name__ == "__main__":
@@ -208,6 +212,6 @@ if __name__ == "__main__":
 
 
     #finally, the concatenation of .mat epochs files and .mat label files is made (think how to make different concatenations (for example LOSO))
-    concatenate_epochs(pre_processed_root, n_subjects, n_sessions, not_process_subjects_and_sessions)
-    concatenate_labels(pre_processed_root, n_subjects, n_sessions, not_process_subjects_and_sessions)
+    concatenate_epochs(pre_processed_root, n_subjects, n_sessions, not_process_subjects_and_sessions, mat_name="Correct")
+    concatenate_labels(pre_processed_root, n_subjects, n_sessions, not_process_subjects_and_sessions, label_name="Clean")
 

@@ -80,6 +80,7 @@ for i = 1:length(subjects)
     end
     
     %obtain the path of a subject
+    subject_id = subjects(i).name;
     subject_path = fullfile(root_dir, subjects(i).name);
     subject_out_path = fullfile(out_dir, subjects(i).name);
     
@@ -118,7 +119,7 @@ for i = 1:length(subjects)
             epochs_path = fullfile(session_path, 'epoch_eeglab.txt');
             
             % Preprocess for that subject and session
-            EEG_Preprocess_function(EEG_in_path,session_out_path ,loc_path,epochs_path,fs, subjects(i).name, session_name);
+            EEG_RAW_function(EEG_in_path,session_out_path ,loc_path,epochs_path,fs, subject_id, session_name);
             pause(5); 
         end
     end
