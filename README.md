@@ -25,7 +25,7 @@ The repository provides all the necessary **code and scripts** for:
 
 ## 📂 Dataset Access and Notebooks
 
-The dataset is hosted publicly on [**Kaggle**](link)
+The dataset is hosted publicly on [**Kaggle**](https://www.kaggle.com/datasets/rubensansegundoherna/tesscco)
 
 ## Publication
 📄 [**Official publication in Scientific Data (Nature)**](Link)
