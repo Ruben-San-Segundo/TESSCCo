@@ -1,5 +1,5 @@
-# FESSCCo Stimuli Presentation
-This folder contains all the code related to the FESSCCo database stimuli presentation.
+# TESSCCo Stimuli Presentation
+This folder contains all the code related to the TESSCCo database stimuli presentation.
 
 ## Experiment Overview
 Further information can be read in the [**Official publication in Scientific Data (Nature)**](Link).
