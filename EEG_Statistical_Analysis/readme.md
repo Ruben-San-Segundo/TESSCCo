@@ -14,7 +14,7 @@ Typical workflow:
 1. Prepare preprocessed session outputs using the [EEG Processing scripts](./../EEG_Processing/):
    - Per-session: `Clean_epochs.set` or `Merged_Clean_epochs.set`
    - Project-level concatenation: `Clean_concatenated_epochs.mat` and `Clean_concatenated_labels.csv`
-2. Build an EEGLAB STUDY: run `Create_Study.m`. Note some information is Hard-coded for FESSCCo dataset.
+2. Build an EEGLAB STUDY: run `Create_Study.m`. Note some information is Hard-coded for TESSCCo dataset.
 3. Compute PSDs and statistics and summaries:
    - `Average_PSDs.m` — averaged power spectral density plots per group. "None" group will average for all the trials.
    - `TFSignificance.m` — per-channel time–frequency 1-WAY ANOVA permutation tests and mean TF significance
