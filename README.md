@@ -1,4 +1,4 @@
-# FESSCCo - FireTV EEG-based Silent Speech Command Corpus
+# TESSCCo - TV-control EEG-based Silent Speech Command Corpus
 
 This repository contains the all the code usedn in the **FireTV EEG-based Silent Speech Command Corpus (FESSCCo)**, a dataset for Silent Speech Interface (SSI) research.
 
@@ -170,7 +170,7 @@ pip install -r EEG_Processing/requirements.txt
 
 ### 📜 Citation
 
-If you use the FESSCCo dataset in your work, please cite it as follows:
+If you use the TESSCCo dataset in your work, please cite it as follows:
 
 ```bibtex
 @article{,
