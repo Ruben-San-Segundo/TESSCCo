@@ -26,7 +26,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
     variables_setup.fixation.draw()
     variables_setup.win.flip()
     num_marker=variables_setup.markers_fase['comienza_task'] #Send marker 0 to know when the 40s of adquisition start before the task begins
-    timestamp_start= int(datetime.now().timestamp())
+    timestamp_start= datetime.now().timestamp()
     variables_setup.outlet.push_sample(num_marker)
     #csv_markers.meter_marker(nom_csv_markers,num_marker,timestamp_start) # Write the marker down in the .csv
     nombre_wav = nom_csv_markers[8:14]+'.wav'
@@ -34,7 +34,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
     grabar.start()
     print('The experiment has begun, 40s of baseline signal (without stimuli presentation) are being recorded.')
     core.wait(40)
-    timestamp_end = int(datetime.now().timestamp())
+    timestamp_end = datetime.now().timestamp()
     csv_markers.meter_marker(nom_csv_markers,0,0,timestamp_start,0,timestamp_end) #Meter el marker en el .
     
     
@@ -44,7 +44,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
         #print('The words/numbers in this round of the vocabuary are: ', vocab_words)
         num_marker=i+1
         round = i+1
-        timestamp_round_start = int(datetime.now().timestamp())
+        timestamp_round_start = datetime.now().timestamp()
         variables_setup.outlet.push_sample([num_marker]) #Send a marker via LSL with the number of the actual vocabulary round (a number from 1 to 10)
         #csv_markers.meter_marker(nom_csv_markers,num_marker,timestamp_marker) #Write the marker down in the .csv
         while len(vocab_words)>0:
@@ -61,7 +61,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
                 #be sent, thus we will know the the word is Turn_down_volume_os (asociated in variabes_setup.markers_words with number 6) and that we are in the first phase (asociated in variabes_setup.markers_fas with number 1) 
                 #Meanwhile, word variable is for adding markers to the csvs
                 word = variables_setup.markers_words[vocab_words[palabraActual]][0]
-                timestamp_start= int(datetime.now().timestamp())
+                timestamp_start= datetime.now().timestamp()
                 variables_setup.outlet.push_sample([num_marker]) 
                 #csv_markers.meter_marker(nom_csv_markers,num_marker,timestamp_marker)
                 core.wait(2)
@@ -72,7 +72,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
                 variables_setup.palabra_go.draw()
                 variables_setup.win.flip()
                 num_marker=(variables_setup.markers_words[vocab_words[palabraActual]][0]*10)+variables_setup.markers_fase['palabra_go'][0]
-                timestamp_go= int(datetime.now().timestamp())
+                timestamp_go= datetime.now().timestamp()
                 variables_setup.outlet.push_sample([num_marker])
                 #csv_markers.meter_marker(nom_csv_markers,num_marker,timestamp_marker)
                 core.wait(3)
@@ -82,7 +82,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
                 variables_setup.fixation.draw()
                 variables_setup.win.flip()
                 num_marker=(variables_setup.markers_words[vocab_words[palabraActual]][0]*10)+variables_setup.markers_fase['final_go'][0]
-                timestamp_end= int(datetime.now().timestamp())
+                timestamp_end= datetime.now().timestamp()
                 variables_setup.outlet.push_sample([num_marker])
                 #csv_markers.meter_marker(nom_csv_markers,num_marker,timestamp_marker)
                 
@@ -119,7 +119,7 @@ def run_task(mensaje_tarea,vocab_task,nom_csv_markers):
         #variables_setup.outlet.push_sample(variables_setup.markers['final_go'])
 
         #Add round information to csv
-        timestamp_round_end = int(datetime.now().timestamp())
+        timestamp_round_end = datetime.now().timestamp()
         csv_markers.meter_marker(nom_csv_markers,round,-1,timestamp_round_start,0,timestamp_round_end)
 
         if script_exit.check_escape(5)==1:
