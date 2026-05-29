@@ -28,7 +28,7 @@ Notes about the MATLAB Engine for Python
 1. Prepare raw data folders.
 <br>
 
-![Example RAW](./Images/Example%20Tree%20Path.png)
+![Example RAW](./Images/Tree%20Path.png)
 <br />
 
 2. Run `Scripts/Batch_Preprocessing.py`. Change first lines to select folders, subjects, and other parameters. You have to indicate 3 different folders:
