@@ -26,10 +26,7 @@ Notes about the MATLAB Engine for Python
 
 
 1. Prepare raw data folders.
-<br>
 
-![Example RAW](./Images/Tree%20Path.png)
-<br />
 
 2. Run `Scripts/Batch_Preprocessing.py`. Change first lines to select folders, subjects, and other parameters. You have to indicate 3 different folders:
     - RAW folder
@@ -40,7 +37,9 @@ Notes about the MATLAB Engine for Python
 5. Run the `Merge_sessions-m` script if you want to create a STUDY for Statistical Analysis
 
 
-![Pre-processed example](./Images/Native-Pre-processed-treepath.jpg)
+<br>
+
+![Example Tree Path](./Images/Tree%20Path.png)
 <br />
 
 ## Scripts (summary)
