@@ -1,6 +1,6 @@
 # EEG Processing Scripts
 
-This folder contains the EEG preprocessing pipeline used in FESSCCo dataset. The scripts here implement trimming, filtering, notch/adaptive-filtering, event parsing, epoching and label extraction to prepare EEG data (BitBrain RAW) for downstream analysis and machine learning. More information can be found in the [**Official publication in Scientific Data (Nature)**](Link).
+This folder contains the EEG preprocessing pipeline used in TESSCCo dataset. The scripts here implement trimming, filtering, notch/adaptive-filtering, event parsing, epoching and label extraction to prepare EEG data (BitBrain RAW) for downstream analysis and machine learning. More information can be found in the [**Official publication in Scientific Data (Nature)**](Link).
 
 ## Quick start
 
