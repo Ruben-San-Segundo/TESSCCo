@@ -106,7 +106,7 @@ def execute(parent_path,subfolder_path, session):
     position = []
     sessions = []
 
-    #For every task (Note that in FESSCCo the calibration is considered as Task-0)
+    #For every task (Note that in TESSCCo the calibration is considered as Task-0)
     for i in range(config.number_tasks+1):
         #Obtain names, paths and DataFrames
         task = "Task-"+str(i)
@@ -114,7 +114,7 @@ def execute(parent_path,subfolder_path, session):
         task_path = os.path.join(parent_path, "Markers", marker)
         task_df = pd.read_csv(task_path)
 
-        #WARNING: This is for FESSCCo as the experimentation was developed that way. In other projects probably it should be an other for loop just for calibrations
+        #WARNING: This is for TESSCCo as the experimentation was developed that way. In other projects probably it should be an other for loop just for calibrations
         if task =="Task-0":
             task_df["steady_start"] = pd.to_numeric(task_df["steady_start"], errors="coerce")
         else:
@@ -126,7 +126,7 @@ def execute(parent_path,subfolder_path, session):
             if row["Word"] == -1 or row["Round"] == 0:
                 continue
             else:
-                #In FESSCCo there are 3 main tasks that shares marker in the experimentation. We could consider all the words without distinguish cover or overt just using one dictionary and without switch case statement
+                #In TESSCCo there are 3 main tasks that shares marker in the experimentation. We could consider all the words without distinguish cover or overt just using one dictionary and without switch case statement
                 #It depends on the needs
                 match task:
                     case "Task-0":
