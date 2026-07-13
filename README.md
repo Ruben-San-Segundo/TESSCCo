@@ -28,7 +28,7 @@ The repository provides all the necessary **code and scripts** for:
 The dataset is hosted publicly on [**Kaggle**](https://www.kaggle.com/datasets/rubensansegundoherna/tesscco)
 
 ## Publication
-📄 [**Official publication in Scientific Data (Nature)**](Link)
+📄 [**Official publication in Scientific Data (Nature)**](https://www.nature.com/articles/s41597-026-07745-8)
 
 ---
 
@@ -173,17 +173,36 @@ pip install -r EEG_Processing/requirements.txt
 If you use the TESSCCo dataset in your work, please cite it as follows:
 
 ```bibtex
-@article{,
-  title = {},
-  volume = {},
-  ISSN = {},
-  url = {},
-  DOI = {},
-  number = {},
-  journal = {},
-  publisher = {},
-  author = {},
-  year = {},
-  month = xxx 
+@article{Lobo-Alonso-TESSCCo,
+  title     = "A dataset with bilingual {TV} commands for silent speech
+               interfaces using electroencephalographic signals",
+  author    = "Lobo-Alonso, Mario and Martín-Fernández, Iván and
+               Oropesa, I and Barra-Chicote, Roberto and Kontaxakis, George and
+               San-Segundo, Rubén",
+  abstract  = "This paper introduces TESSCCo (TV-control EEG-based Silent
+               Speech Command Corpus), a new dataset including
+               electroencephalography (EEG) signals during Overt Speech (OS)
+               and Covert Speech (CS) in different languages. The dataset
+               comprises repetitions of five different commands pronounced
+               covertly and overtly in English and Spanish from 21 healthy
+               native Spanish speakers (13 male, 8 female, 23 $\pm$ 2 years
+               old), while EEG and audio were recorded. In addition, 3
+               non-native healthy Spanish speakers were recorded under the same
+               circumstances (3 male, 23.3 $\pm$ 0.6 years old). A total of
+               7936 available epochs (i.e., 11.02 hours of data) were recorded
+               with a 32 channel, 256 Hz sampling rate Water based EEG device.
+               The database was designed to maximize the number of different
+               analysis involving EEG signals. The final number of epochs, as
+               well as the statistical analysis (showing significance in
+               Broca's and Wernicke's areas) and machine learning experiments
+               (with subjects exceeding the chance level with basic machine
+               learning models), show that this material is a valuable resource
+               for research on future ways of communication.",
+  journal   = "Sci. Data",
+  publisher = "Springer Science and Business Media LLC",
+  month     =  jul,
+  year      =  2026,
+  language  = "en"
 }
+
 ```
